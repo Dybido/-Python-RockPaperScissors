@@ -1,6 +1,6 @@
 #!/usr/bin/python
 
-import os, sys, random
+import os, sys, random, re
 
 def condition(u, v):
 	user = 0
@@ -31,27 +31,32 @@ def condition(u, v):
 
 print "Welcome to a game of Rock, Paper, Scissors!"
 
+u=0
+v=0
+
 while 1:
 	choice = raw_input("To begin, please type rock, paper or scissors \n")
+	#Cleaning input by removing non-alphabetical characters and converting all to lowercase
+	choice = choice.lower()
+	choice = re.sub('[\W\d]*', '', choice)
+	weapons = ["rock", "paper", "scissors"]
 
-	dice = random.randint(1,6)
-
-	if dice <= 2:
-		computer_choice = "rock"
-	elif dice > 2 and dice <= 4:
-		computer_choice = "paper"
-	else:
-		computer_choice = "scissors"	
+	#random.choice is good for choosing a random element from a list 
+	computer_choice = random.choice(weapons)
 
 	print "Your choice is", choice
 	print "The computer's choice is", computer_choice
 
 	(p1,p2) = condition(choice, computer_choice)
 
-	print "The score is now You/Computer:", p1, "/", p2
+	u += p1
+	v += p2
+
+	print "The score is now You/Computer:", u, "/", v
 
 	cont = raw_input("Would you like to continue playing? (yes/no) \n")
 	if cont == "no":
+		print "The final score is", u, "/", v
 		break
 	else: 
 		pass
